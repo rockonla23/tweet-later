@@ -1,0 +1,8 @@
+
+	<% if !@tweets.nil? %>
+		<% @tweets.each do |tweet| %>
+			<p><%= tweet.text %></p><br>
+		<% end %>
+	<% end %>
+
+

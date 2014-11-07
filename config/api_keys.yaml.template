@@ -1,0 +1,3 @@
+development: &defaults 
+	twitter_consumer_key_id: ""
+	twitter_consumer_secret_key_id: ""
