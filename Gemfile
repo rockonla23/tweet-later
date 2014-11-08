@@ -20,6 +20,7 @@ gem 'shotgun'
 gem 'twitter'
 gem 'awesome_print'
 gem 'byebug'
+gem 'rspec'
 
 
 group :test do
