@@ -4,8 +4,8 @@ class CreateTwitterUsers < ActiveRecord::Migration
       t.string :twitter_username
       t.string :consumer_key
       t.string :consumer_secret
-      t.string :access_token
-      t.string :access_token_secret
+      t.string :oauth_token
+      t.string :oauth_token_secret
 
       t.timestamps
 
