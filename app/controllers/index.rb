@@ -3,7 +3,7 @@ get '/' do
 end
 
 get '/sign_in' do
-  redirect request_token.authorize_url
+  redirect to("/auth/twitter")
 end
 
 get '/sign_out' do
@@ -11,10 +11,16 @@ get '/sign_out' do
   redirect '/'
 end
 
-get '/auth' do
-  @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+get '/auth/twitter/callback' do
+  # @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
   session.delete(:request_token)
-   twitteruser = TwitterUser.create(twitter_username: @access_token.params[:screen_name], oauth_token: @access_token.token, oauth_secret: @access_token.secret )
+  screen_name = env['omniauth.auth']["extra"]["access_token"].params["screen_name"]
+  twitteruser = TwitterUser.find_by(twitter_username: screen_name)
+  if twitteruser
+    TwitterUser.update(twitter_username: screen_name, oauth_token: env['omniauth.auth']["credentials"]["token"], oauth_secret: env['omniauth.auth']["credentials"]["secret"] )
+  else
+   twitteruser = TwitterUser.create(twitter_username: screen_name, oauth_token: env['omniauth.auth']["credentials"]["token"], oauth_token_secret: env['omniauth.auth']["credentials"]["secret"] )
+  end
   session[:id] = twitteruser.id
 
 erb :index
@@ -27,7 +33,7 @@ post '/auth' do
     config.consumer_key = ENV["TWITTER_KEY"]
     config.consumer_secret = ENV["TWITTER_SECRET"]
     config.access_token = twitteruser.oauth_token
-    config.access_token_secret = twitter.user.oauth_secret
+    config.access_token_secret = twitteruser.oauth_token_secret
   end
   client.update(params[:tweets])
 end
