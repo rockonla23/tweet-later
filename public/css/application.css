@@ -1,4 +1,4 @@
-.container {
+87CEFA.container {
   margin: 20px auto;
   width: 600px;
   padding: 0px 20px 20px 20px;
@@ -20,18 +20,19 @@ button a {
 
 .welcome_msg {
   float: right;
-  color: #0A83CC;
+  color: #87CEFA;
 }
 
 h1 {
   text-align: center;
-  color: #00BACC;
+  color: #87CEFA;
 }
 
 h2, h3 {
-  color: #00BACC;
+  color: #87CEFA;
 }
 
 .container2 {
-  color: #00A9FF;
+  color: #87CEFA;
 }
+
