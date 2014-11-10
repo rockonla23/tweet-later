@@ -13,11 +13,11 @@ end
 
 get '/auth' do
   byebug
-  @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+  @access_token = request_token.get_access_token(:access_verifier => params[:access_verifier])
 
   session.delete(:request_token)
 
-   twitteruser = TwitterUser.create(twitter_username: @access_token.params[:screen_name], oauth_token: @access_token.token, oauth_secret: @access_token.secret )
+   twitteruser = TwitterUser.create(twitter_username: @access_token.params[:screen_name], access_token: @access_token.token, access_token_secret: @access_token.secret )
   session[:id] = user.id
 
 erb :index
@@ -27,8 +27,8 @@ end
 post '/auth' do
   twitteruser = TwitterUser.find(session[:id])
   Twitter.configure do |config|
-  config.oauth_token = user.oauth_token
-  config.oauth_token_secret = user.oauth_secret
+  config.access_token = user.access_token
+  config.access_token_secret = user.access_token_secret
 end
   Twitter.update(params[:tweets])
 end
