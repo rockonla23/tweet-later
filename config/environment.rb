@@ -42,7 +42,7 @@ require 'yaml'
 require 'omniauth-twitter'
 
 # Set up Login via Twitter
-API_KEYS = YAML::load(File.open('config/api_keys.yaml'))
+# API_KEYS = YAML::load(File.open('config/api_keys.yaml'))
 
 use OmniAuth::Builder do
   provider :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_SECRET"]
