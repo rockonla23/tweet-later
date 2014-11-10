@@ -21,9 +21,8 @@ gem 'twitter'
 gem 'awesome_print'
 gem 'byebug'
 gem 'rspec'
-
+gem 'omniauth-twitter'
 
 group :test do
   gem 'faker'
-  gem 'rspec'
 end

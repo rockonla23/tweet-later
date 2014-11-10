@@ -2,32 +2,31 @@ get '/' do
   erb :index
 end
 
-get '/home' do
-  @user = TwitterUser.find_by(twitter_username: session[:username])
-  @tweets = TwitterUser.fetch_tweets!(@user)
-  erb :index
+get '/sign_in' do
+  redirect request_token.authorize_url
 end
 
-post '/tweet' do
-  halt(401,'Not Authorized') unless admin?
-  @user = TwitterUser.find_by(twitter_username: session[:username])
-  TwitterUser.post_tweet!(@user, params[:tweet_msg])
-  @tweets = TwitterUser.fetch_tweets!(@user)
-  erb :show
+get '/sign_out' do
+  session.clear
+  redirect '/'
 end
 
-get '/tweet' do
-  halt(401,'Not Authorized') unless admin?
-  @user = TwitterUser.find_by(twitter_username: session[:username])
-  @tweets = TwitterUser.fetch_tweets!(@user)
-  erb :show
+get '/auth' do
+  @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+  session.delete(:request_token)
+   user = User.create(username:@access_token.params[:screen_name], oauth_token: @access_token.token, oauth_secret: @access_token.secret )
+  session[:id] = user.id
+
+erb :index
+
 end
- 
-get '/public' do
-  "This is the public page - everybody is welcome!"
+
+post '/auth' do
+  user = User.find(session[:id])
+  Twitter.configure do |config|
+  config.oauth_token = user.oauth_token
+  config.oauth_token_secret = user.oauth_secret
 end
- 
-get '/private' do
-  halt(401,'Not Authorized') unless admin?
-  "This is the private page - members only"
+  Twitter.update(params[:tweets])
 end
+
