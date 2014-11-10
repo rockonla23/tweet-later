@@ -14,7 +14,9 @@ end
 get '/auth' do
   byebug
   @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+
   session.delete(:request_token)
+
    twitteruser = TwitterUser.create(twitter_username: @access_token.params[:screen_name], oauth_token: @access_token.token, oauth_secret: @access_token.secret )
   session[:id] = user.id
 
