@@ -23,10 +23,12 @@ end
 
 post '/auth' do
   twitteruser = TwitterUser.find(session[:id])
-  Twitter.configure do |config|
-  config.oauth_token = user.oauth_token
-  config.oauth_token_secret = user.oauth_secret
-end
-  Twitter.update(params[:tweets])
+  client = Twitter::REST::Client.new do |config|
+    config.consumer_key = ENV["TWITTER_KEY"]
+    config.consumer_secret = ENV["TWITTER_SECRET"]
+    config.access_token = twitteruser.oauth_token
+    config.access_token_secret = twitter.user.oauth_secret
+  end
+  client.update(params[:tweets])
 end
 
