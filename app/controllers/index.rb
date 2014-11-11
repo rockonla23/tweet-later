@@ -17,7 +17,7 @@ get '/auth/twitter/callback' do
   screen_name = env['omniauth.auth']["extra"]["access_token"].params["screen_name"]
   twitteruser = TwitterUser.find_by(twitter_username: screen_name)
   if twitteruser
-    TwitterUser.update(twitter_username: screen_name, oauth_token: env['omniauth.auth']["credentials"]["token"], oauth_secret: env['omniauth.auth']["credentials"]["secret"] )
+    twitteruser.update(twitter_username: screen_name, oauth_token: env['omniauth.auth']["credentials"]["token"], oauth_token_secret: env['omniauth.auth']["credentials"]["secret"] )
   else
    twitteruser = TwitterUser.create(twitter_username: screen_name, oauth_token: env['omniauth.auth']["credentials"]["token"], oauth_token_secret: env['omniauth.auth']["credentials"]["secret"] )
   end
