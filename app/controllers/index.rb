@@ -36,5 +36,6 @@ post '/auth' do
     config.access_token_secret = twitteruser.oauth_token_secret
   end
   client.update(params[:tweets])
+  redirect '/'
 end
 
