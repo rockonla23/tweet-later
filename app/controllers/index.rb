@@ -12,6 +12,7 @@ get '/sign_out' do
 end
 
 get '/auth/twitter/callback' do
+  # @access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
   session.delete(:request_token)
   screen_name = env['omniauth.auth']["extra"]["access_token"].params["screen_name"]
   twitteruser = TwitterUser.find_by(twitter_username: screen_name)
