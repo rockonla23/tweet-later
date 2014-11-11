@@ -1,7 +1,7 @@
 <<div class="container">
   <h1>What you waiting for, tweet ah!</h1>
 
-  <% if session[:id] %>
+  <%if session[:id]%>
 
     <div>
       <p>
@@ -14,7 +14,7 @@
 
 <%if session[:id]%>
 <form action = "/auth"  method = "post">
-  <input type= "text" name = "tweets" placeholder = "eg. my tweet "> </input>
+  <input type= "text" name = "tweets" placeholder = "eg. my tweet " rows="4" cols="70" autocorrect="on" autocapitalize="off"> </input>
   <input type = "submit" value = "Post  Tweets"> </input>
  </form>
 <%end%>
