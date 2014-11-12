@@ -1,3 +1,5 @@
+helpers do
+
 get '/' do
   erb :index
 end
@@ -39,3 +41,32 @@ post '/auth' do
   redirect '/'
 end
 
+get '/status/:job_id' do
+  @job_id = params[:job_id]
+  erb :status
+end
+
+post '/status/:job_id' do
+  job_status(params[:job_id])
+end
+
+post '/tweet' do
+
+  twitteruser = TwitterUser.find(session[:id])
+  client = Twitter::REST::Client.new do |config|
+    config.consumer_key = ENV["TWITTER_KEY"]
+    config.consumer_secret = ENV["TWITTER_SECRET"]
+    config.access_token = twitteruser.oauth_token
+    config.access_token_secret = twitteruser.oauth_token_secret
+  end
+  client.update(params[:tweet])
+  redirect '/'
+end
+
+post '/tweet_later' do
+
+  twitteruser = TwitterUser.find(session[:id])
+  job_id = twitteruser.post_tweet_later(params[:tweet_word1], params[:time])
+  redirect to "/status/#{job_id}"
+end
+end

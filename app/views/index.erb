@@ -1,22 +1,25 @@
 <div class="container">
-  <h1>What you waiting for, tweet ah!</h1>
+  <h1>We tweet like Malaysians, laterrrrrrrrrrrrrrrrrrr</h1>
 
-  <%if session[:id]%>
-
-    <div>
-      <p>
-        <button><a href="/sign_out">Sign Out</a></button>
-      </p>
-    </div>
+  <% if session[:id] %>
+    Welcome!
   <% else %>
     <button><a href="/sign_in">Sign In with Twitter</a></button>
   <% end %>
 
-<%if session[:id]%>
-<form action = "/auth"  method = "post">
-  <input type= "text" name = "tweets" placeholder = "eg. my tweet " rows="4" cols="70" autocorrect="on" autocapitalize="off"> </input>
-  <input type = "submit" value = "Post  Tweets"> </input>
- </form>
-<%end%>
+  <% if session[:id] %>
+    <form action='/tweet' method='post'>
+      <input type='text' name='tweet' placeholder="tweet">
+      <input type='submit'>
+    </form>
+    <form action='/tweet_later' method='post'>
+      <input type='text' name='tweet_word1' placeholder="tweet">
+      <input type='text' name='time' placeholder="seconds">
+      <input type='submit'>
+    </form>
+
+    <button><a href ='/sign_out'>sign out</a></button>
+  <% end %>
+
 
 </div>

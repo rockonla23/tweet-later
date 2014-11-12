@@ -23,6 +23,8 @@ require 'erb'
 require 'awesome_print'
 require 'open-uri'
 require 'byebug'
+require 'sidekiq'
+require 'redis'
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
@@ -42,9 +44,9 @@ require 'yaml'
 require 'omniauth-twitter'
 
 # Set up Login via Twitter
-# API_KEYS = YAML::load(File.open('config/api_keys.yaml'))
-# ENV["TWITTER_KEY"] = API_KEYS["development"]["twitter_consumer_key_id"]
-# ENV["TWITTER_SECRET"] = API_KEYS["development"]["twitter_consumer_secret_key_id"]
+API_KEYS = YAML::load(File.open('config/api_keys.yaml'))
+ENV["TWITTER_KEY"] = API_KEYS["development"]["twitter_consumer_key_id"]
+ENV["TWITTER_SECRET"] = API_KEYS["development"]["twitter_consumer_secret_key_id"]
 
 use OmniAuth::Builder do
   provider :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_SECRET"]
